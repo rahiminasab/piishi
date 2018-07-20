@@ -1,0 +1,288 @@
+body {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+li {
+    background-color: aliceblue;
+}
+
+li:nth-child(odd) {
+    background-color: #eff0f1;
+}
+
+/*login stuff*/
+
+.loginbox {
+    margin-bottom: 20px;
+}
+
+.signupbox {
+    margin-top:50px;
+    margin-bottom: 20px;
+}
+
+/*--------------------------*/
+
+/* header stuff*/
+
+.header-nav {
+    background-color: #efd796bd;
+}
+
+.logo {
+    max-width: 36px;
+}
+
+.sign-out-ico {
+    color: black;
+    padding-left: 5px;
+}
+/*--------------------------*/
+
+.content-wrapper {
+    margin-top: 20px;
+}
+
+.loading {
+    /*display: none;*/
+    /*position: fixed;*/
+    /*top: 50%;*/
+    /*left: 40%;*/
+    position: absolute; width: 100%; height: 100%; background: url('images/loading.gif') no-repeat center center;
+}
+
+#nav-tab {
+    font-size: 1.2em;
+}
+
+.submit-prediction {
+    margin-top: 2.1em;
+}
+
+.tab-pain {
+    margin-top: 0.5em;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.team-flag {
+    max-width: 25px;
+}
+
+.match-list-item-info {
+    margin-bottom: 10px;
+}
+
+.actual-scores-row {
+    font-size: x-large;
+}
+
+.predicted-info-div {
+    padding-top: 15px;
+}
+
+.predicted-scores-row {
+    background-color: #e8d08a4f;
+}
+
+.predict-submit-btns-row {
+    margin-top: 10px;
+}
+
+.predict-edit-btn {
+    background-color: #ec9573;
+}
+
+
+.scoreboard_position_1 {
+    background-color: gold!important;
+}
+
+.scoreboard_position_2 {
+    background-color: silver!important;
+}
+
+.scoreboard_position_3 {
+    background-color: #A67D3D!important;
+}
+
+.scoreboard-badge {
+    font-size: x-large;
+}
+
+#what_are_rules {
+    cursor: pointer;
+}
+
+.rules-list {
+    margin-bottom: 20px;
+}
+
+.royal-badge {
+    color: #ff9800;
+}
+
+.full-house-badge {
+    color: saddlebrown;
+}
+
+.straight-badge {
+    color: #009688;
+}
+
+.one-pair-badge {
+    color: #e91e63;
+}
+
+.oracle-badge {
+    color: #7fbcf9;
+}
+
+.nostradamus-badge {
+    color: #5d126b;
+}
+
+.trelawney-badge {
+    color: #ff9800;
+}
+
+.badge-icon-in-row {
+    margin-left: 12px;
+}
+
+.match-set-card {
+    cursor: pointer;
+}
+
+.match-list-header i {
+    margin-left: -10px;
+    cursor: pointer;
+}
+
+.match-list-header strong {
+    margin-left: 15px;
+}
+
+/*profile stuff*/
+.profile-info {
+    background-color: #8a838314;
+    padding-top: 1em;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.profile-info-fullname {
+    font-size: 25px;
+    padding-top: 0.5em;
+    padding-bottom: 0.2em;
+}
+
+.missing-photo-icon{
+    color: #a9a9a978;
+    border-radius: 50%;
+    display: inline-block;
+    /*box-shadow: 0 0 2px #000000;*/
+    position:relative;
+    font-size: 202px;
+    width:200px;
+    height:200px;
+    background-color: ghostwhite;
+}
+
+.profile-picture-upload-icon {
+    position: absolute;
+    left: 48%;
+    top: 70%;
+    color: #00000061;
+    font-size: 30px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.profile-picture-upload-icon:hover {
+    color: black;
+}
+
+.profile-photo {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+.profile-no-matchsets {
+    height: 160px;
+    margin-top: 10px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.carousel {
+    /*background: #EEE;*/
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.carousel-cell {
+  width: 90%;
+  height: 465px;
+  margin-right: 10px;
+  background: #EEE;
+  border-radius: 5px;
+  counter-increment: gallery-cell;
+}
+
+@media screen and ( min-width: 768px ) {
+  /* half-width cells for larger devices */
+  .carousel-cell { width: 50%; }
+}
+
+/* cell number */
+.carousel-cell:before {
+  display: block;
+  /*text-align: center;*/
+  /*content: counter(gallery-cell);*/
+  /*line-height: 200px;*/
+  /*font-size: 80px;*/
+  color: white;
+}
+
+/*
+@media (min-width: 34em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media (min-width: 48em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media (min-width: 62em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media (min-width: 75em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+<<<<<<< HEAD:pishi/static/pishi/styles_13.css
+}*/
+
+#lucky_dog_img {
+    width: 50%;
+}
