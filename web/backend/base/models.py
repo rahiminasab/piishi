@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from datetime import datetime
 import pytz
@@ -32,6 +34,9 @@ class EventSet(models.Model):
     finished = models.BooleanField(default=False)
     summary = models.ForeignKey("Summary", on_delete=models.CASCADE, null=True, blank=True)
 
+    def __unicode__(self):
+        return "%s(%s-%s)".format(self.name, self.start_date, self.end_date)
+
 
 class Event(models.Model):
     class Meta:
@@ -43,10 +48,23 @@ class Event(models.Model):
     finished = models.BooleanField(default=False)
     summary = models.ForeignKey("Summary", on_delete=models.CASCADE)
 
+    @property
+    def due(self):
+        return datetime.now(pytz.UTC) >= self.start_time
+
+    @property
+    def encoded_id(self):
+        return urlsafe_base64_encode(force_bytes(self.pk))
+
+    @staticmethod
+    def decode_id(encoded_id):
+        return urlsafe_base64_decode(encoded_id)
+
 
 class Prediction(models.Model):
     class Meta:
         abstract = True
+        unique_together = ('foreteller', 'event')
 
     foreteller = models.ForeignKey(User, related_name="predictions", on_delete=models.CASCADE)
     event = models.ForeignKey(Event, related_name="predictions", on_delete=models.CASCADE)
