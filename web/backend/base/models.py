@@ -24,7 +24,7 @@ class EventSet(models.Model):
         abstract = True
         ordering = ['start_date']
 
-    topic = models.ForeignKey(Topic, related_name="%(class)_set", on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, related_name="%(class)s_set", on_delete=models.PROTECT)
     name = models.CharField(max_length=100)
     web_link = models.URLField(null=True, blank=True)
     image = models.URLField(null=True, blank=True)
@@ -43,7 +43,8 @@ class Event(models.Model):
         abstract = True
         ordering = ['start_time']
 
-    event_set = models.ForeignKey(EventSet, on_delete=models.CASCADE)
+    # The following field should be declared in child classes.
+    # event_set = models.ForeignKey(EventSet, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     finished = models.BooleanField(default=False)
     summary = models.ForeignKey("Summary", on_delete=models.CASCADE)
@@ -67,7 +68,8 @@ class Prediction(models.Model):
         unique_together = ('foreteller', 'event')
 
     foreteller = models.ForeignKey(User, related_name="predictions", on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, related_name="predictions", on_delete=models.CASCADE)
+    # The following field should be declared in child classes.
+    # event = models.ForeignKey(Event, related_name="predictions", on_delete=models.CASCADE)
     normal_badge = models.PositiveIntegerField(choices=Badge.normal_types, null=True, blank=True)
     exceptional_badge = models.PositiveIntegerField(choices=Badge.exceptional_types, null=True, blank=True)
     created_on = models.DateTimeField(editable=False)

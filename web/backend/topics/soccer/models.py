@@ -1,25 +1,22 @@
 from web.backend.base.models import *
 
 
-class LeagueTournament(EventSet):
+class SoccerTournament(EventSet):
+    LEAGUE = 0
+    KNOCKOUT = 1
+    MIXED = 2
+
+    types = (
+        (LEAGUE, "League Tournament"),
+        (KNOCKOUT, "Knockout Tournament"),
+        (MIXED, "Mixed Tournament"),
+    )
+
     class Meta(EventSet.Meta):
-        db_table = 'psh_soccer_league_tournament'
+        db_table = 'psh_soccer_tournament'
 
     number_of_teams = models.PositiveIntegerField()
-
-
-class KnockOutTournament(EventSet):
-    class Meta(EventSet.Meta):
-        db_table = 'psh_soccer_knockout_tournament'
-
-    number_of_teams = models.PositiveIntegerField()
-
-
-class MixedTournament(EventSet):
-    class Meta(EventSet.Meta):
-        db_table = 'psh_soccer_mixed_tournament'
-
-    number_of_teams = models.PositiveIntegerField()
+    type = models.PositiveIntegerField(choices=types)
 
 
 class SoccerTeam(models.Model):
@@ -38,9 +35,11 @@ class SoccerTeam(models.Model):
 class SoccerMatch(Event):
     class Meta(Event.Meta):
         db_table = 'psh_soccer_match'
+        verbose_name_plural = "Soccer matches"
 
-    home_team = models.ForeignKey(SoccerTeam, on_delete=models.PROTECT)
-    away_team = models.ForeignKey(SoccerTeam, on_delete=models.PROTECT)
+    event_set = models.ForeignKey(SoccerTournament, related_name="matches", on_delete=models.PROTECT)
+    home_team = models.ForeignKey(SoccerTeam, related_name="home_matches", on_delete=models.PROTECT)
+    away_team = models.ForeignKey(SoccerTeam, related_name="away_matches", on_delete=models.PROTECT)
     home_result = models.PositiveIntegerField(null=True, blank=True)
     away_result = models.PositiveIntegerField(null=True, blank=True)
     home_penalty = models.PositiveIntegerField(null=True, blank=True)
@@ -55,6 +54,7 @@ class SoccerMatchPrediction(Prediction):
     class Meta(Prediction.Meta):
         db_table = 'psh_soccer_prediction'
 
+    event = models.ForeignKey(SoccerMatch, related_name="predictions", on_delete=models.CASCADE)
     home_result = models.PositiveIntegerField()
     away_result = models.PositiveIntegerField()
     home_penalty = models.PositiveIntegerField(null=True, blank=True)
