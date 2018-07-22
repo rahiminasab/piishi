@@ -83,6 +83,10 @@ DATABASES = {
     }
 }
 
+MIGRATION_MODULES = {
+    'web': 'web.backend.migrations'
+}
+
 FIXTURE_DIRS = (
     os.path.join(BASE_DIR,'web/test/fixtures'),
 )
