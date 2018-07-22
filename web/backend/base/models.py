@@ -24,7 +24,7 @@ class EventSet(models.Model):
         abstract = True
         ordering = ['start_date']
 
-    topic = models.ForeignKey(Topic, related_name="event_sets", on_delete=models.SET_NULL)
+    topic = models.ForeignKey(Topic, related_name="%(class)_set", on_delete=models.SET_NULL)
     name = models.CharField(max_length=100)
     web_link = models.URLField(null=True, blank=True)
     image = models.URLField(null=True, blank=True)
