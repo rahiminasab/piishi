@@ -1,9 +1,15 @@
 #!/usr/bin/env python
 import os
 import sys
+from dotenv import load_dotenv
+
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+ENV_PATH = os.path.join(BASE_DIR, ".env")
+load_dotenv(dotenv_path=ENV_PATH)
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "piishi.settings.production")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

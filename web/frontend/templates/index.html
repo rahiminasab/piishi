@@ -1,1 +1,9 @@
 {% extends 'base.html' %}
+
+{% block content %}
+    {% for topic in topics %}
+        <h2>{{ topic.name }}</h2>
+        {% include 'topic/topic_active_list.html' with topic=topic only %}
+    {% endfor %}
+
+{% endblock %}

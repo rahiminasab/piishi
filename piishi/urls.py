@@ -18,6 +18,7 @@ from django.urls import path
 
 from web import views as core_views
 from web.backend.registrar import urls as registrar_urls
+from web.backend.topics.soccer import urls as soccer_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,3 +27,4 @@ urlpatterns = [
 ]
 
 urlpatterns.extend(registrar_urls.urlpatterns)
+urlpatterns.extend(soccer_urls.url_patterns)

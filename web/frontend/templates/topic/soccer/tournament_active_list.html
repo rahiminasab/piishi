@@ -1,0 +1,7 @@
+<div class="carousel" data-flickity data-flickity-options='{ "cellAlign": "left", "contain": true, "pageDots": false }'>
+    {% for tournament in tournaments %}
+        <div class="carousel-cell">
+            {% include 'topic/soccer/tournament_active_item.html' with tournament=tournament %}
+        </div>
+    {% endfor %}
+</div>

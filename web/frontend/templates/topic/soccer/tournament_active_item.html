@@ -1,0 +1,16 @@
+<div data-route="/soccer/tournament/{{ tournament.encoded_id }}" class="card bg-light border-secondary match-set-card">
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <img style="max-width: 130px;" class="card-img-top" src="{{ tournament.flag }}" alt="Card image cap">
+        </div>
+    </div>
+    <div class="card-body match-set-info">
+      <h5 class="card-title">{{ tournament.name }}</h5>
+      <p class="card-text">
+          {{ tournament.location }} ({{ tournament.start_date }}-{{ tournament.end_date }})
+      </p>
+    </div>
+    <div class="card-footer">
+        {% include 'badge/badge_row.html' with info_obj=tournament %}
+    </div>
+</div>

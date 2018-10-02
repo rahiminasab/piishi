@@ -1,6 +1,7 @@
 .idea/
-psh_env/
+venv/
 db.sqlite3
+.env
 
 __pycache__/
 *.py[cod]
