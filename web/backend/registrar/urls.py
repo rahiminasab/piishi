@@ -11,10 +11,10 @@ urlpatterns = [
 
     # ****** USER ACTIVATION URLs *******
     re_path(r'^user_activation_pending/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',
-            registrar_views.user_activation_pending,
+            registrar_views.UserActivationPendingView.as_view(),
             name='user_activation_pending'),
     re_path(r'^user_activation_done/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-            registrar_views.user_activation_done,
+            registrar_views.UserActivationDoneView.as_view(),
             name='user_activation_done'),
 
     # ****** RESET PASS URLs *******

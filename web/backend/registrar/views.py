@@ -1,3 +1,4 @@
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -31,26 +32,32 @@ class SignUpView(FormView):
         return redirect(reverse('user_activation_pending', kwargs={"email": email}))
 
 
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            email = form.cleaned_data.get('email')
-            user.save()
-
-            send_user_activation_email(request, user, email)
-            return redirect(reverse('user_activation_pending', kwargs={"email": email}))
-    else:
-        form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
-
-
 # ************ USER ACTIVATION ********************
 
-def user_activation_pending(request, email):
-    return render(request, 'registration/activation/user_activation_pending.html', {"email": email})
+class UserActivationPendingView(TemplateView):
+    template_name = 'registration/activation/user_activation_pending.html'
+
+
+class UserActivationDoneView(TemplateView):
+    template_name = 'registration/activation/user_activation_done.html'
+
+    def get(self, request, *args, **kwargs):
+        uidb64 = self.kwargs["uidb64"]
+        token = self.kwargs["token"]
+
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            login(request, user)
+
+            return super(UserActivationDoneView, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponse('Activation link is invalid!')
 
 
 def user_activation_done(request, uidb64, token):
