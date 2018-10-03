@@ -3,7 +3,7 @@ from django.contrib.auth.backends import ModelBackend
 
 
 class CaseInsensitiveModelBackend(ModelBackend):
-    def authenticate(self, username=None, password=None, **kwargs):
+    def authenticate(self, request, username=None, password=None, **kwargs):
         user_model = get_user_model()
         if username is None:
             username = kwargs.get(user_model.USERNAME_FIELD)

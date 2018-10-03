@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from web import views as core_views
+from web.backend import views as core_views
 from web.backend.registrar import urls as registrar_urls
 from web.backend.topics.soccer import urls as soccer_urls
 

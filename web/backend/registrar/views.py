@@ -1,3 +1,4 @@
+from django.views.generic.edit import FormView
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.urls import reverse
@@ -13,6 +14,21 @@ from django.views.decorators.http import require_POST
 from .forms import SignUpForm, ResetPassInitForm, ResetPassConfirmForm
 
 from .tokens import account_activation_token
+
+
+class SignUpView(FormView):
+    template_name = "registration/signup.html"
+    form_class = SignUpForm
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+
+        email = form.cleaned_data.get('email')
+        send_user_activation_email(self.request, user, email)
+
+        return redirect(reverse('user_activation_pending', kwargs={"email": email}))
 
 
 def signup(request):

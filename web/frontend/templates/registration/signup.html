@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
     <div class="row justify-content-center signupbox">
@@ -9,64 +10,150 @@
                 </div>
 
                 <div style="padding-top:30px" class="card-body" >
-                    <form id="signupform" class="form-horizontal" role="form" method="post">
+                    <form id="signupform"
+                          class="form-horizontal"
+                          role="form"
+                          method="post">
                         {% csrf_token %}
                         {% for error in form.non_field_errors %}
                             <div class="form-group has-errors text-danger small">
                                 {{error}}
                             </div>
                         {% endfor %}
-                        {% for field in form  %}
-                            <div class="form-group has-errors text-danger small">
-                                {{field.errors}}
+
+                        {#----- first_name input -----#}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                </div>
+                                {% if form.is_bound %}
+                                    {% if form.first_name.errors %}
+                                        {% render_field form.first_name class="form-control is-invalid" %}
+                                        {% for error in form.first_name.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field form.first_name class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.first_name class="form-control" %}
+                                {% endif %}
                             </div>
-                            {% if field.id_for_label == "id_username" %}
-                                <div style="margin-bottom: 25px" class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <input id="{{ field.id_for_label }}" type="text" class="form-control" name="{{ field.html_name }}" value="" placeholder="username" required>
+                        </div>
+                        {#----- last_name input -----#}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
                                 </div>
-                            {% elif field.id_for_label == "id_first_name" %}
-                                 <div style="margin-bottom: 25px" class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
-                                    </div>
-                                    <input id="{{ field.id_for_label }}" type="text" class="form-control" name="{{ field.html_name }}" placeholder="first name" required>
+                                {% if form.is_bound %}
+                                    {% if form.last_name.errors %}
+                                        {% render_field form.last_name class="form-control is-invalid" %}
+                                        {% for error in form.last_name.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field form.last_name class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.last_name class="form-control" %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {#----- email input -----#}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                 </div>
-                            {% elif field.id_for_label == "id_last_name" %}
-                                <div style="margin-bottom: 25px" class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
-                                    </div>
-                                    <input id="{{ field.id_for_label }}" type="text" class="form-control" name="{{ field.html_name }}" placeholder="last name" required>
+                                {% if form.is_bound %}
+                                    {% if form.email.errors %}
+                                        {% render_field form.email class="form-control is-invalid" %}
+                                        {% for error in form.email.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field form.email class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.email class="form-control" %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {#----- username input -----#}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                            {% elif field.id_for_label == "id_email" %}
-                                <div style="margin-bottom: 25px" class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    </div>
-                                    <input id="{{ field.id_for_label }}"
-                                           type="email" class="form-control"
-                                           name="{{ field.html_name }}"
-                                           placeholder="john@gmail.com" required>
+                                {% if form.is_bound %}
+                                    {% if form.username.errors %}
+                                        {% render_field form.username class="form-control is-invalid" %}
+                                        {% for error in form.username.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field form.username class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.username class="form-control" %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {#----- pass1 input -----#}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
                                 </div>
-                            {% elif field.id_for_label == "id_password1" %}
-                                <div style="margin-bottom: 25px" class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                    </div>
-                                    <input id="{{ field.id_for_label }}" type="password" class="form-control" name="{{ field.html_name }}" placeholder="password" required>
+                                {% if form.is_bound %}
+                                    {% if form.password1.errors %}
+                                        {% render_field form.password1 class="form-control is-invalid" %}
+                                        {% for error in form.password1.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field form.password1 class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.password1 class="form-control" %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {#----- pass2 input -----#}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
                                 </div>
-                            {% elif field.id_for_label == "id_password2" %}
-                                 <div style="margin-bottom: 25px" class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                    </div>
-                                    <input id="{{ field.id_for_label }}" type="password" class="form-control" name="{{ field.html_name }}" placeholder="repeat password" required>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
+                                {% if form.is_bound %}
+                                    {% if form.password2.errors %}
+                                        {% render_field form.password2 class="form-control is-invalid" %}
+                                        {% for error in form.password2.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field form.password2 class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.password2 class="form-control" %}
+                                {% endif %}
+                            </div>
+                        </div>
+
                         <div style="margin-top:10px" class="row form-group">
                             <!-- Button -->
                             <div class="col-sm-12 controls">

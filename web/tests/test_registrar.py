@@ -25,10 +25,10 @@ class LoginTestCase(TestCase):
         self.assertFalse(user.is_authenticated)
 
         garfield = User.objects.get(pk=1)
-        garfield.set_password('P@ssw0rd')
+        garfield.set_password('Meow!Meow')
         garfield.save()
 
-        self.client.login(username=garfield.username, password='P@ssw0rd')
+        self.client.login(username=garfield.username, password='Meow!Meow')
 
         user = auth.get_user(self.client)
         self.assertTrue(user.is_authenticated)
@@ -38,7 +38,7 @@ class LoginTestCase(TestCase):
 
     def test_login_action_failure(self):
         garfield = User.objects.get(pk=1)
-        garfield.set_password('P@ssw0rd')
+        garfield.set_password('Meow!Meow')
         garfield.save()
 
         self.client.login(username=garfield.username, password='wrongPass')
@@ -64,34 +64,34 @@ class SignUpTestCase(TestCase):
     def test_sign_up_form_valid(self):
         form = SignUpForm(data={"first_name": "Cathlene", "last_name": "Caterpillar",
                                 "username": "cathlene", "email": "cathlene@piishi.com",
-                                "password1": "P@ssw0rd", "password2": "P@ssw0rd"})
+                                "password1": "Meow!Meow", "password2": "Meow!Meow"})
         self.assertTrue(form.is_valid())
 
     def test_sign_up_form_user_already_exists(self):
         form = SignUpForm(data={"first_name": "Cathlene", "last_name": "Caterpillar",
                                 "username": "garfield", "email": "cathlene@piishi.com",
-                                "password1": "P@ssw0rd", "password2": "P@ssw0rd"})
+                                "password1": "Meow!Meow", "password2": "Meow!Meow"})
         self.assertFalse(form.is_valid())
-        self.assertTrue('A user with that username already exists.' in str(form.errors))
+        self.assertTrue('username already taken' in str(form.errors))
 
     def test_sign_up_form_email_not_unique(self):
         form = SignUpForm(data={"first_name": "Cathlene", "last_name": "Caterpillar",
                                 "username": "cathlene", "email": "piishi.com@gmail.com",
-                                "password1": "P@ssw0rd", "password2": "P@ssw0rd"})
+                                "password1": "Meow!Meow", "password2": "Meow!Meow"})
         self.assertFalse(form.is_valid())
-        self.assertTrue('a user with this email address already exists.' in str(form.errors))
+        self.assertTrue('this email is already associated with an account' in str(form.errors))
 
     def test_sign_up_form_pass_mismatch(self):
         form = SignUpForm(data={"first_name": "Cathlene", "last_name": "Caterpillar",
                                 "username": "cathlene", "email": "cathlene@piishi.com",
-                                "password1": "P@ssw0rd", "password2": "D@ssw0rd"})
+                                "password1": "Meow!Meow", "password2": "D@ssw0rd"})
         self.assertFalse(form.is_valid())
         self.assertTrue('The two password fields didn&#39;t match.' in str(form.errors))
 
     def test_user_signup_action(self):
         resp = self.client.post(reverse('signup'), {"first_name": "Cathlene", "last_name": "Caterpillar",
                                                     "username": "cathlene", "email": "cathlene@piishi.com",
-                                                    "password1": "P@ssw0rd", "password2": "P@ssw0rd"}, follow=True)
+                                                    "password1": "Meow!Meow", "password2": "Meow!Meow"}, follow=True)
         self.assertRedirects(resp, reverse('user_activation_pending', kwargs={'email': 'cathlene@piishi.com'}))
         self.assertTemplateUsed(resp, 'registration/activation/user_activation_pending.html')
 
@@ -105,7 +105,7 @@ class SignUpTestCase(TestCase):
     def test_user_activation_done(self):
         self.client.post(reverse('signup'), {"first_name": "Cathlene", "last_name": "Caterpillar",
                                              "username": "cathlene", "email": "cathlene@piishi.com",
-                                             "password1": "P@ssw0rd", "password2": "P@ssw0rd"}, follow=True)
+                                             "password1": "Meow!Meow", "password2": "Meow!Meow"}, follow=True)
 
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Please activate your account at Piishi.com')
@@ -144,10 +144,10 @@ class LogoutTestCase(TestCase):
 
     def test_logout_user(self):
         garfield = User.objects.get(pk=1)
-        garfield.set_password('P@ssw0rd')
+        garfield.set_password('Meow!Meow')
         garfield.save()
 
-        self.client.login(username=garfield.username, password='P@ssw0rd')
+        self.client.login(username=garfield.username, password='Meow!Meow')
 
         resp = self.client.get(reverse('home'))
 
@@ -169,7 +169,7 @@ class ResetPassTestCase(TestCase):
     def setUp(self):
         self.garfield = User.objects.get(pk=1)
         self.garfield.email = 'abc@def.com'
-        self.garfield.set_password('P@ssw0rd')
+        self.garfield.set_password('Meow!Meow')
         self.garfield.save()
 
     def test_sign_in_page_has_pass_reset_link(self):
@@ -182,10 +182,10 @@ class ResetPassTestCase(TestCase):
         self.assertTrue('User with this Email address is not found!'in str(form.errors))
 
     def test_pass_reset_confirm_form(self):
-        form = ResetPassConfirmForm(data={"password": "P@ssw0rd", "password_repeat": "P@ssw0rd"})
+        form = ResetPassConfirmForm(data={"password": "Meow!Meow", "password_repeat": "Meow!Meow"})
         self.assertTrue(form.is_valid())
 
-        form = ResetPassConfirmForm(data={"password": "P@ssw0rd", "password_repeat": "Another"})
+        form = ResetPassConfirmForm(data={"password": "Meow!Meow", "password_repeat": "Another"})
         self.assertFalse(form.is_valid())
 
     def test_pass_reset_functionality(self):

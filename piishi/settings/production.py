@@ -27,7 +27,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['www.piishi.com', 'rahiminasab.pythonanywhere.com', 'localhost', '127.0.0.1']
 
-#SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = True
 
 # Application definition
 
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'web'
+    'web',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -72,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'piishi.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -88,13 +88,14 @@ MIGRATION_MODULES = {
 }
 
 FIXTURE_DIRS = (
-    os.path.join(BASE_DIR,'web/test/fixtures'),
+    os.path.join(BASE_DIR, 'web/tests/fixtures'),
 )
 
 
 AUTHENTICATION_BACKENDS = ('web.backend.registrar.backends.CaseInsensitiveModelBackend',)
 
 LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = '/'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

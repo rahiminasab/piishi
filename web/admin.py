@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from web.backend.models import *
 
 
 class TopicAdmin(admin.ModelAdmin):

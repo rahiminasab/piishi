@@ -5,9 +5,9 @@ from . import views as registrar_views
 
 
 urlpatterns = [
-    path('login/', auth_views.login, name='login'),
-    path('logout/', auth_views.logout, {'next_page': '/'}, name='logout'),
-    path('signup/', registrar_views.signup, name='signup'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('signup/', registrar_views.SignUpView.as_view(), name='signup'),
 
     # ****** USER ACTIVATION URLs *******
     re_path(r'^user_activation_pending/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',
