@@ -18,12 +18,11 @@ urlpatterns = [
             name='user_activation_done'),
 
     # ****** RESET PASS URLs *******
-    path('reset_pass_submit/', registrar_views.reset_pass_submit, name='reset_pass_submit'),
+    path('reset_pass_submit/', registrar_views.ResetPassInitView.as_view(), name='reset_pass_submit'),
     re_path(r'^reset_pass_pending/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',
-            registrar_views.reset_pass_pending,
+            registrar_views.ResetPassPendingView.as_view(),
             name='reset_pass_pending'),
     re_path(r'^reset_pass_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-            registrar_views.reset_pass_confirm,
+            registrar_views.ResetPassConfirmView.as_view(),
             name='reset_pass_confirm'),
-    path('reset_pass_done/', registrar_views.reset_pass_done, name='reset_pass_done')
 ]

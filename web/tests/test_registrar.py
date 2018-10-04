@@ -127,8 +127,8 @@ class SignUpTestCase(TestCase):
         self.assertEqual(user, cathlene)
 
     def test_user_activation_done_invalid_link(self):
-        resp = self.client.post(reverse('user_activation_done',
-                                        kwargs={"uidb64": "NA", "token": "4xz-243b5b358ed4436fff50"}))
+        resp = self.client.get(reverse('user_activation_done',
+                                       kwargs={"uidb64": "NA", "token": "4xz-243b5b358ed4436fff50"}))
         self.assertContains(resp, "Activation link is invalid!")
 
 
@@ -177,22 +177,22 @@ class ResetPassTestCase(TestCase):
         self.assertContains(resp, reverse('reset_pass_submit'))
 
     def test_pass_reset_init_form(self):
-        form = ResetPassInitForm(data={"email_input": 'no_such_email@piishi.com'})
+        form = ResetPassInitForm(data={"email": 'no_such_email@piishi.com'})
         self.assertFalse(form.is_valid())
-        self.assertTrue('User with this Email address is not found!'in str(form.errors))
+        self.assertTrue('Email address is not associated with an account' in str(form.errors))
 
     def test_pass_reset_confirm_form(self):
-        form = ResetPassConfirmForm(data={"password": "Meow!Meow", "password_repeat": "Meow!Meow"})
+        form = ResetPassConfirmForm(data={"password1": "Meow!Meow", "password2": "Meow!Meow"})
         self.assertTrue(form.is_valid())
 
-        form = ResetPassConfirmForm(data={"password": "Meow!Meow", "password_repeat": "Another"})
+        form = ResetPassConfirmForm(data={"password1": "Meow!Meow", "password2": "Another"})
         self.assertFalse(form.is_valid())
 
     def test_pass_reset_functionality(self):
         resp = self.client.get(reverse('reset_pass_submit'))
         self.assertTemplateUsed(resp, 'registration/reset_pass/reset_pass_init.html')
 
-        resp = self.client.post(reverse('reset_pass_submit'), {"email_input": self.garfield.email}, follow=True)
+        resp = self.client.post(reverse('reset_pass_submit'), {"email": self.garfield.email}, follow=True)
         self.assertTemplateUsed(resp, 'registration/reset_pass/reset_pass_pending.html')
 
         self.assertEqual(len(mail.outbox), 1)
@@ -211,8 +211,9 @@ class ResetPassTestCase(TestCase):
         self.assertTrue(user.is_authenticated)
         self.assertEqual(user, self.garfield)
 
-        resp = self.client.post(reverse('reset_pass_done'),
-                                {"password": "AnotherPass123", "password_repeat": "AnotherPass123"}, follow=True)
+        form = ResetPassConfirmForm(data={"password1": "AnotherPass123", "password2": "AnotherPass123"})
+        resp = self.client.post(reverse('reset_pass_confirm', args=["Mg", "4xz-243b5b358ed4436fff50"]),
+                                {"password1": "AnotherPass123", "password2": "AnotherPass123"}, follow=True)
         self.assertTrue(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'registration/reset_pass/reset_pass_done.html')
         user = auth.get_user(self.client)
@@ -223,6 +224,6 @@ class ResetPassTestCase(TestCase):
         self.assertTrue(self.garfield.check_password("AnotherPass123"))
 
     def test_reset_pass_confirm_invalid_link(self):
-        resp = self.client.post(reverse('reset_pass_confirm',
+        resp = self.client.get(reverse('reset_pass_confirm',
                                 kwargs={"uidb64": "NA", "token": "4xz-243b5b358ed4436fff50"}))
         self.assertContains(resp, "reset pass link is invalid!")

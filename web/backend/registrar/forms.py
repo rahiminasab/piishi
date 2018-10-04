@@ -40,31 +40,23 @@ class SignUpForm(UserCreationForm):
 
 
 class ResetPassInitForm(forms.Form):
-    email_input = forms.EmailField(max_length=100, required=True)
+    email = forms.EmailField(max_length=100, widget=forms.EmailInput({"placeholder": "john@gmail.com"}))
 
-    class Meta:
-        fields = ('email_input',)
+    def clean_email(self):
+        content = self.cleaned_data.get('email')
+        if not User.objects.filter(email=content).exists():
+            raise forms.ValidationError(_("Email address is not associated with an account"), code="email_not_found")
 
-    def clean(self):
-        cleaned_data = super(ResetPassInitForm, self).clean()
-        email = cleaned_data.get('email_input')
-        try:
-            User.objects.get(email=email)
-            return cleaned_data
-        except User.DoesNotExist:
-            raise forms.ValidationError(u'User with this Email address is not found!')
+        return content
 
 
 class ResetPassConfirmForm(forms.Form):
-    password = forms.CharField(max_length=30, required=True)
-    password_repeat = forms.CharField(max_length=30, required=True)
-
-    class Meta:
-        fields = ('password', 'password_repeat')
+    password1 = forms.CharField(max_length=30, widget=forms.PasswordInput({"placeholder": "new password"}))
+    password2 = forms.CharField(max_length=30, widget=forms.PasswordInput({"placeholder": "repeat new password"}))
 
     def clean(self):
         cleaned_data = super(ResetPassConfirmForm, self).clean()
-        pass1 = cleaned_data.get('password')
-        pass2 = cleaned_data.get('password_repeat')
+        pass1 = cleaned_data.get('password1')
+        pass2 = cleaned_data.get('password2')
         if pass1 != pass2:
-            raise forms.ValidationError(u'The two provided passwords are not the same!')
+            raise forms.ValidationError(_("The two provided passwords are not the same!"), code="pass_mismatch")

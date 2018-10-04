@@ -1,4 +1,5 @@
 {%  extends 'base.html' %}
+{% load widget_tweaks %}
 {% block content %}
     <div class="row justify-content-center">
         <div class="col-lg-7">
@@ -10,16 +11,29 @@
                         {{error}}
                     </div>
                 {% endfor %}
-                <div class="form-group has-errors text-danger small">
-                    {{form.email_input.errors}}
-                </div>
-                <div style="margin-bottom: 25px" class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                {#----- email input -----#}
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        {% if form.is_bound %}
+                            {% if form.email.errors %}
+                                {% render_field form.email class="form-control is-invalid" %}
+                                {% for error in form.email.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                {% render_field form.email class="form-control is-valid" %}
+                            {% endif %}
+                        {% else %}
+                            {% render_field form.email class="form-control" %}
+                        {% endif %}
                     </div>
-                    <input id="email_input" type="email" class="form-control" name="email_input" placeholder="cat@piishi.com" required>
                 </div>
-                <div style="margin-top:10px" class="form-group row">
+                <div class="form-group row">
                     <!-- Button -->
                     <div class="col-sm-12 controls">
                         <button type="submit" class="btn btn-success">Continue  </button>
